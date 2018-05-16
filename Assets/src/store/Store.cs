@@ -30,10 +30,14 @@ public static class Store
 
 	static readonly Func<State, Action, State> reducer = Reducer;
 
-	public readonly static ISubject<Action> storeDispatch = new BehaviorSubject<Action>(new Action(Actions.__INIT));
+	static readonly State initialState = new State(
+	  A.InitialState(),
+	  B.InitialState()
+	);
 
-	public readonly static IObservable<State> storeState = storeDispatch.Scan(new State(
-		 A.InitialState(),
-		 B.InitialState()
-	), reducer);
+	public static readonly ISubject<Action> storeDispatch = new Subject<Action>();
+
+	public static readonly BehaviorSubject<State> storeState = new BehaviorSubject<State>(initialState);
+
+	static readonly System.IDisposable storePrivate = storeDispatch.Scan(initialState, reducer).Subscribe(storeState);
 }
