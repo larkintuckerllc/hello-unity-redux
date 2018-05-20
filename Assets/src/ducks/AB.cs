@@ -6,8 +6,8 @@
     {
         return new Action(dispatch =>
         {
-            dispatch.OnNext(A.Instance.IncrementA());
-            dispatch.OnNext(B.Instance.IncrementB());
+            dispatch(A.Instance.IncrementA());
+            dispatch(B.Instance.IncrementB());
         });
     }
 
@@ -15,8 +15,8 @@
     {
         return new Action(dispatch =>
         {
-            dispatch.OnNext(A.Instance.DecrementA());
-            dispatch.OnNext(B.Instance.DecrementB());
+            dispatch(A.Instance.DecrementA());
+            dispatch(B.Instance.DecrementB());
         });
     }
 }

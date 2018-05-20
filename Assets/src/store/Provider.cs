@@ -2,7 +2,7 @@
 using UnityEngine;
 using UniRx;
 
-public static class Store
+public static class Provider
 {
     public enum Actions
     {
@@ -50,25 +50,35 @@ public static class Store
         return action.Type != Actions.THUNK;
     }
 
-    public static ISubject<Action> Dispatch { get; private set; }
+    public static State ExtractState(State state)
+    {
+        return state;
+    }
 
-    public static BehaviorSubject<State> StoreState { get; private set; }
+    static ISubject<Action> StoreDispatch;
+
+    public static void Dispatch(Action action)
+    {
+        StoreDispatch.OnNext(action);
+    }
+
+    public static BehaviorSubject<State> Store { get; private set; }
 
     public static void Initialize()
     {
-        Dispatch = new Subject<Action>();
+        StoreDispatch = new Subject<Action>();
         State initialState = new State(
             A.InitialState,
             B.InitialState,
             ABDelay.InitialState
         );
-        StoreState = new BehaviorSubject<State>(initialState);
-        Dispatch
+        Store = new BehaviorSubject<State>(initialState);
+        StoreDispatch
             .Where<Action>(FilterThunk)
             .Select(Logger)
             .Scan(initialState, Reducer)
-            // TODO: NEED TO EXTRACT STATE HERE
-            .Subscribe(StoreState);
-        Dispatch.OnNext(new Action(Store.Actions.__INIT));
+            .Select(ExtractState)
+            .Subscribe(Store);
+        Dispatch(new Action(Actions.__INIT));
     }
 }

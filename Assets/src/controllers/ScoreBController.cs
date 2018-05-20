@@ -10,7 +10,7 @@ public class ScoreBController : MonoBehaviour
 
     void Start()
     {
-        Store.StoreState.Subscribe(state =>
+        Provider.Store.Subscribe(state =>
         {
             int nextScore = B.GetB(state);
             if (nextScore == score)

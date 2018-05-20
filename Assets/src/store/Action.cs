@@ -3,16 +3,16 @@ using UniRx;
 
 public class Action
 {
-    public Store.Actions Type { get; private set; }
+    public Provider.Actions Type { get; private set; }
 
-    public Action(Store.Actions type)
+    public Action(Provider.Actions type)
 	{
 		this.Type = type;
 	}
 
-    public Action(Action<ISubject<Action>> function)
+    public Action(Action<Action<Action>> function)
     {
-        this.Type = Store.Actions.THUNK;
-        function(Store.Dispatch);
+        this.Type = Provider.Actions.THUNK;
+        function(Provider.Dispatch);
     }
 }

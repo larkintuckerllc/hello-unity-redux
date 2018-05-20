@@ -5,6 +5,6 @@ public class ZeroABController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Store.Dispatch.OnNext(ABDelay.Instance.DelayZeroAB());
+        Provider.Dispatch(ABDelay.Instance.DelayZeroAB());
     }
 }

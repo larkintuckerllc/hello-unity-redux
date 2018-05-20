@@ -11,9 +11,9 @@ public class ABDelay : Singleton<ABDelay>
     {
         switch (action.Type)
         {
-            case Store.Actions.DELAY_ZERO_AB_START:
+            case Provider.Actions.DELAY_ZERO_AB_START:
                 return true;
-            case Store.Actions.DELAY_ZERO_AB_END:
+            case Provider.Actions.DELAY_ZERO_AB_END:
                 return false;
             default:
                 return state;
@@ -27,15 +27,15 @@ public class ABDelay : Singleton<ABDelay>
 
     protected ABDelay() { }
 
-    IEnumerator DelayZeroABEnumerator(ISubject<Action> dispatch)
+    IEnumerator DelayZeroABEnumerator(Action<Action> dispatch)
     {
         // REPLACE WITH STATE
         // BehaviorSubject<State> state = getState();
-        dispatch.OnNext(DelayZeroABStart());
+        dispatch(DelayZeroABStart());
         yield return new WaitForSeconds(3f);
-        dispatch.OnNext(A.Instance.ZeroA());
-        dispatch.OnNext(B.Instance.ZeroB());
-        dispatch.OnNext(DelayZeroABEnd());
+        dispatch(A.Instance.ZeroA());
+        dispatch(B.Instance.ZeroB());
+        dispatch(DelayZeroABEnd());
     }
 
     public Action DelayZeroAB()
@@ -49,11 +49,11 @@ public class ABDelay : Singleton<ABDelay>
 
     public Action DelayZeroABStart()
     {
-        return new Action(Store.Actions.DELAY_ZERO_AB_START);
+        return new Action(Provider.Actions.DELAY_ZERO_AB_START);
     }
 
     public Action DelayZeroABEnd()
     {
-        return new Action(Store.Actions.DELAY_ZERO_AB_END);
+        return new Action(Provider.Actions.DELAY_ZERO_AB_END);
     }
 }

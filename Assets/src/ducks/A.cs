@@ -6,11 +6,11 @@
 	{
 		switch (action.Type)
 		{
-			case Store.Actions.INCREMENT_A:
+			case Provider.Actions.INCREMENT_A:
 				return state + 1;
-			case Store.Actions.DECREMENT_A:
+			case Provider.Actions.DECREMENT_A:
 				return state - 1;
-            case Store.Actions.ZERO_A:
+            case Provider.Actions.ZERO_A:
                 return 0;
 			default:
 				return state;
@@ -26,16 +26,16 @@
 
     public Action IncrementA()
     {
-        return new Action(Store.Actions.INCREMENT_A);
+        return new Action(Provider.Actions.INCREMENT_A);
     }
 
     public Action DecrementA()
     {
-        return new Action(Store.Actions.DECREMENT_A);
+        return new Action(Provider.Actions.DECREMENT_A);
     }
 
     public Action ZeroA()
     {
-        return new Action(Store.Actions.ZERO_A);
+        return new Action(Provider.Actions.ZERO_A);
     }
 }

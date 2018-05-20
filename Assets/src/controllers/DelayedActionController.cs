@@ -11,7 +11,7 @@ public class DelayedActionController : MonoBehaviour
     void Start()
     {
         delayedActionUI.gameObject.SetActive(false);
-        Store.StoreState.Subscribe(state =>
+        Provider.Store.Subscribe(state =>
         {
             bool nextABDelay = ABDelay.GetABDelay(state);
             if (nextABDelay == abDelay)

@@ -3,6 +3,6 @@
 public class Initialize : MonoBehaviour {
     void Awake()
     {
-        Store.Initialize();
+        Provider.Initialize();
     }
 }
