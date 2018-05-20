@@ -5,6 +5,6 @@ using UnityEngine;
 public class Initialize : MonoBehaviour {
     void Awake()
     {
-        Store.Instance.Initialize();
+        Store.Initialize();
     }
 }

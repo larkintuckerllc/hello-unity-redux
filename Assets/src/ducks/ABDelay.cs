@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UniRx;
 
@@ -8,6 +9,8 @@ public class ABDelay : Singleton<ABDelay>
 
     IEnumerator DelayZeroABEnumerator(ISubject<Action> dispatch)
     {
+        // REPLACE WITH STATE
+        // BehaviorSubject<State> state = getState();
         dispatch.OnNext(DelayZeroABStart());
         yield return new WaitForSeconds(3f);
         dispatch.OnNext(A.Instance.ZeroA());

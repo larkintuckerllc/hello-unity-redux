@@ -2,9 +2,9 @@
 using UnityEngine;
 using UniRx;
 
-public class Store : Singleton<Store>
+public static class Store
 {
-    protected Store() { }
+    static BehaviorSubject<State> storeState;
 
     public enum Actions
     {
@@ -52,11 +52,14 @@ public class Store : Singleton<Store>
         return action.Type != Actions.THUNK;
     }
 
-    public ISubject<Action> storeDispatch = new Subject<Action>();
+    public readonly static ISubject<Action> storeDispatch = new Subject<Action>();
 
-    public BehaviorSubject<State> storeState;
+    public static BehaviorSubject<State> StoreState
+    {
+        get { return storeState; }
+    }
 
-    public void Initialize()
+    public static void Initialize()
     {
         State initialState = new State(
             A.InitialState,
@@ -68,6 +71,7 @@ public class Store : Singleton<Store>
             .Where<Action>(FilterThunk)
             .Select(Logger)
             .Scan(initialState, Reducer)
+            // TODO: NEED TO EXTRACT STATE HERE
             .Subscribe(storeState);
         storeDispatch.OnNext(new Action(Store.Actions.__INIT));
     }
