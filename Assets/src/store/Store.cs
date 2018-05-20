@@ -9,6 +9,7 @@ public class Store : Singleton<Store>
     public enum Actions
     {
         __INIT,
+        THUNK,
         INCREMENT_A,
         DECREMENT_A,
         INCREMENT_B,
@@ -36,29 +37,28 @@ public class Store : Singleton<Store>
         Debug.Log(action.Type);
         return action;
     }
+
     public static Boolean FilterThunk(Action action)
     {
-        return false;
+        return action.Type != Actions.THUNK;
     }
 
     public ISubject<Action> storeDispatch = new Subject<Action>();
+
     public BehaviorSubject<State> storeState;
 
     public void Initialize()
     {
-        Func<State, Action, State> reducer = Reducer;
-        Func<Action, Action> logger = Logger;
-        Func<Action, Boolean> filterThunk = FilterThunk;
         State initialState = new State(
             A.InitialState(),
             B.InitialState()
         );
         storeState = new BehaviorSubject<State>(initialState);
         storeDispatch
-            // ADD IN THUNK HANDLER
-            .Where<Action>(filterThunk)
-            .Select(logger)
-            .Scan(initialState, reducer)
+            .Where<Action>(FilterThunk)
+            .Select(Logger)
+            .Scan(initialState, Reducer)
             .Subscribe(storeState);
+        storeDispatch.OnNext(new Action(Store.Actions.__INIT));
     }
 }

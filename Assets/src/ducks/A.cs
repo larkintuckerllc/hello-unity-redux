@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-
-public static class A
+﻿public static class A
 {
-	public static Action IncrementA()
+    public static Action IncrementA()
 	{
 		return new Action(Store.Actions.INCREMENT_A);
 	}
