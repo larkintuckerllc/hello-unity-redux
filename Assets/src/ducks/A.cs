@@ -2,7 +2,6 @@
 
 public static class A
 {
-
 	public static Action IncrementA()
 	{
 		return new Action(Store.Actions.INCREMENT_A);
@@ -12,7 +11,7 @@ public static class A
 	{
 		return new Action(Store.Actions.DECREMENT_A);
 	}
-
+    
 	public static int InitialState()
 	{
 		return 0;

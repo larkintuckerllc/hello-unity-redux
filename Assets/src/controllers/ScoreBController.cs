@@ -39,6 +39,6 @@ public class ScoreBController : MonoBehaviour
 
 	void Start()
 	{
-		Store.storeState.Subscribe(new MyObserver(this));
+		Store.Instance.storeState.Subscribe(new MyObserver(this));
 	}
 }

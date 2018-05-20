@@ -27,7 +27,7 @@ public class ScoreAController : MonoBehaviour
 
 		public void OnNext(State state)
 		{
-			int nextScore = A.getA(state);
+            int nextScore = A.getA(state);
 			if (nextScore == outer.score)
 			{
 				return;
@@ -39,6 +39,6 @@ public class ScoreAController : MonoBehaviour
 
 	void Start()
 	{
-		Store.storeState.Subscribe(new MyObserver(this));
+		Store.Instance.storeState.Subscribe(new MyObserver(this));
 	}
 }
