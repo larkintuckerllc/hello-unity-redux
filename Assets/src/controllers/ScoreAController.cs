@@ -12,7 +12,7 @@ public class ScoreAController : MonoBehaviour
 	{
         Store.Instance.storeState.Subscribe(state =>
         {
-            int nextScore = A.getA(state);
+            int nextScore = A.GetA(state);
             if (nextScore == score)
             {
                 return;

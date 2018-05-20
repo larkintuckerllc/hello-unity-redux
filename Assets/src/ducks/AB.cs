@@ -1,21 +1,22 @@
-﻿
-public class AB
+﻿public class AB : Singleton<AB>
 {
-    public static Action IncrementAB()
+    protected AB() { }
+
+    public Action IncrementAB()
     {
         return new Action(dispatch =>
         {
-            dispatch.OnNext(A.IncrementA());
-            dispatch.OnNext(B.IncrementB());
+            dispatch.OnNext(A.Instance.IncrementA());
+            dispatch.OnNext(B.Instance.IncrementB());
         });
     }
 
-    public static Action DecrementAB()
+    public Action DecrementAB()
     {
         return new Action(dispatch =>
         {
-            dispatch.OnNext(A.DecrementA());
-            dispatch.OnNext(B.DecrementB());
+            dispatch.OnNext(A.Instance.DecrementA());
+            dispatch.OnNext(B.Instance.DecrementB());
         });
     }
 }

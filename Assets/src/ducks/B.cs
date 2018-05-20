@@ -1,21 +1,23 @@
-﻿using UnityEngine;
-
-public static class B
+﻿public class B : Singleton<B>
 {
-	public static Action IncrementB()
+    protected B() { }
+
+	public Action IncrementB()
 	{
 		return new Action(Store.Actions.INCREMENT_B);
 	}
 
-	public static Action DecrementB()
+	public Action DecrementB()
 	{
 		return new Action(Store.Actions.DECREMENT_B);
 	}
 
-	public static int InitialState()
-	{
-		return 0;
-	}
+    public Action ZeroB()
+    {
+        return new Action(Store.Actions.ZERO_B);
+    }
+
+    public static int InitialState = 0;
 
 	public static int Reducer(int state, Action action)
 	{
@@ -25,11 +27,13 @@ public static class B
 				return state + 1;
 			case Store.Actions.DECREMENT_B:
 				return state - 1;
+            case Store.Actions.ZERO_B:
+                return 0;
 			default:
 				return state;
 		}
 	}
-	public static int getB(State state)
+	public static int GetB(State state)
 	{
 		return state.B;
 	}

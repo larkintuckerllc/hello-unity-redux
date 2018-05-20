@@ -9,11 +9,15 @@ public class Store : Singleton<Store>
     public enum Actions
     {
         __INIT,
-        THUNK,
+        DELAY_ZERO_AB_START,
+        DELAY_ZERO_AB_END,
         INCREMENT_A,
-        DECREMENT_A,
         INCREMENT_B,
-        DECREMENT_B
+        DECREMENT_A,
+        DECREMENT_B,
+        ZERO_A,
+        ZERO_B,
+        THUNK
     }
 
     public static State Reducer(State state, Action action)
@@ -29,7 +33,12 @@ public class Store : Singleton<Store>
         {
             hasChanged = true;
         }
-        return hasChanged ? new State(nextStateA, nextStateB) : state;
+        bool nextABDelay = ABDelay.Reducer(state.ABDelay, action);
+        if (nextABDelay != state.ABDelay)
+        {
+            hasChanged = true;
+        }
+        return hasChanged ? new State(nextStateA, nextStateB, nextABDelay) : state;
     }
 
     public static Action Logger(Action action)
@@ -50,8 +59,9 @@ public class Store : Singleton<Store>
     public void Initialize()
     {
         State initialState = new State(
-            A.InitialState(),
-            B.InitialState()
+            A.InitialState,
+            B.InitialState,
+            ABDelay.InitialState
         );
         storeState = new BehaviorSubject<State>(initialState);
         storeDispatch

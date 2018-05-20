@@ -1,19 +1,23 @@
-﻿public static class A
+﻿public class A : Singleton<A>
 {
-    public static Action IncrementA()
-	{
-		return new Action(Store.Actions.INCREMENT_A);
-	}
+    protected A() { }
 
-	public static Action DecrementA()
+    public Action IncrementA()
+    {
+        return new Action(Store.Actions.INCREMENT_A);
+    }
+
+    public Action DecrementA()
 	{
 		return new Action(Store.Actions.DECREMENT_A);
 	}
-    
-	public static int InitialState()
-	{
-		return 0;
-	}
+
+    public Action ZeroA()
+    {
+        return new Action(Store.Actions.ZERO_A);
+    }
+
+    public static int InitialState = 0;
 
 	public static int Reducer(int state, Action action)
 	{
@@ -23,12 +27,14 @@
 				return state + 1;
 			case Store.Actions.DECREMENT_A:
 				return state - 1;
+            case Store.Actions.ZERO_A:
+                return 0;
 			default:
 				return state;
 		}
 	}
 
-	public static int getA(State state)
+	public static int GetA(State state)
 	{
 		return state.A;
 	}
