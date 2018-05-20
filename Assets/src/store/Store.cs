@@ -31,17 +31,34 @@ public class Store : Singleton<Store>
         return hasChanged ? new State(nextStateA, nextStateB) : state;
     }
 
+    public static Action Logger(Action action)
+    {
+        Debug.Log(action.Type);
+        return action;
+    }
+    public static Boolean FilterThunk(Action action)
+    {
+        return false;
+    }
+
     public ISubject<Action> storeDispatch = new Subject<Action>();
     public BehaviorSubject<State> storeState;
 
     public void Initialize()
     {
         Func<State, Action, State> reducer = Reducer;
+        Func<Action, Action> logger = Logger;
+        Func<Action, Boolean> filterThunk = FilterThunk;
         State initialState = new State(
             A.InitialState(),
             B.InitialState()
         );
         storeState = new BehaviorSubject<State>(initialState);
-        storeDispatch.Scan(initialState, reducer).Subscribe(storeState);
+        storeDispatch
+            // ADD IN THUNK HANDLER
+            .Where<Action>(filterThunk)
+            .Select(logger)
+            .Scan(initialState, reducer)
+            .Subscribe(storeState);
     }
 }
