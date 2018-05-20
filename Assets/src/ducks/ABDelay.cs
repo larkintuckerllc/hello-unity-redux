@@ -5,6 +5,26 @@ using UniRx;
 
 public class ABDelay : Singleton<ABDelay>
 {
+    public static bool InitialState = false;
+
+    public static bool Reducer(bool state, Action action)
+    {
+        switch (action.Type)
+        {
+            case Store.Actions.DELAY_ZERO_AB_START:
+                return true;
+            case Store.Actions.DELAY_ZERO_AB_END:
+                return false;
+            default:
+                return state;
+        }
+    }
+
+    public static bool GetABDelay(State state)
+    {
+        return state.ABDelay;
+    }
+
     protected ABDelay() { }
 
     IEnumerator DelayZeroABEnumerator(ISubject<Action> dispatch)
@@ -35,25 +55,5 @@ public class ABDelay : Singleton<ABDelay>
     public Action DelayZeroABEnd()
     {
         return new Action(Store.Actions.DELAY_ZERO_AB_END);
-    }
-
-    public static bool InitialState = false;
-
-    public static bool Reducer(bool state, Action action)
-    {
-        switch (action.Type)
-        {
-            case Store.Actions.DELAY_ZERO_AB_START:
-                return true;
-            case Store.Actions.DELAY_ZERO_AB_END:
-                return false;
-            default:
-                return state;
-        }
-    }
-
-    public static bool GetABDelay(State state)
-    {
-        return state.ABDelay;
     }
 }

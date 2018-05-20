@@ -5,6 +5,6 @@ public class ZeroBController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Store.storeDispatch.OnNext(B.Instance.ZeroB());
+        Store.Dispatch.OnNext(B.Instance.ZeroB());
     }
 }

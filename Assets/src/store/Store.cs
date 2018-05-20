@@ -4,8 +4,6 @@ using UniRx;
 
 public static class Store
 {
-    static BehaviorSubject<State> storeState;
-
     public enum Actions
     {
         __INIT,
@@ -52,27 +50,25 @@ public static class Store
         return action.Type != Actions.THUNK;
     }
 
-    public readonly static ISubject<Action> storeDispatch = new Subject<Action>();
+    public static ISubject<Action> Dispatch { get; private set; }
 
-    public static BehaviorSubject<State> StoreState
-    {
-        get { return storeState; }
-    }
+    public static BehaviorSubject<State> StoreState { get; private set; }
 
     public static void Initialize()
     {
+        Dispatch = new Subject<Action>();
         State initialState = new State(
             A.InitialState,
             B.InitialState,
             ABDelay.InitialState
         );
-        storeState = new BehaviorSubject<State>(initialState);
-        storeDispatch
+        StoreState = new BehaviorSubject<State>(initialState);
+        Dispatch
             .Where<Action>(FilterThunk)
             .Select(Logger)
             .Scan(initialState, Reducer)
             // TODO: NEED TO EXTRACT STATE HERE
-            .Subscribe(storeState);
-        storeDispatch.OnNext(new Action(Store.Actions.__INIT));
+            .Subscribe(StoreState);
+        Dispatch.OnNext(new Action(Store.Actions.__INIT));
     }
 }

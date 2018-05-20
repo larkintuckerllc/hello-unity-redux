@@ -4,6 +4,6 @@ public class DecrementAController : MonoBehaviour
 {
 	private void OnTriggerEnter(Collider other)
 	{
-		Store.storeDispatch.OnNext(A.Instance.DecrementA());
+		Store.Dispatch.OnNext(A.Instance.DecrementA());
 	}
 }

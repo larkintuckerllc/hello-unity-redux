@@ -1,28 +1,13 @@
 ﻿public class State
 {
-	readonly int a;
-	readonly int b;
-    readonly bool abDelay;
+	public int A { get; private set; }
+	public int B { get; private set; }
+    public bool ABDelay { get; private set; }
 
 	public State(int a, int b, bool abDelay)
 	{
-		this.a = a;
-		this.b = b;
-        this.abDelay = abDelay;
+		this.A = a;
+		this.B = b;
+        this.ABDelay = abDelay;
 	}
-
-	public int A
-	{
-		get { return a; }
-	}
-
-	public int B
-	{
-		get { return b; }
-	}
-
-    public bool ABDelay
-    {
-        get { return abDelay;  }
-    }
 }

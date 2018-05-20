@@ -1,22 +1,5 @@
 ﻿public class A : Singleton<A>
 {
-    protected A() { }
-
-    public Action IncrementA()
-    {
-        return new Action(Store.Actions.INCREMENT_A);
-    }
-
-    public Action DecrementA()
-	{
-		return new Action(Store.Actions.DECREMENT_A);
-	}
-
-    public Action ZeroA()
-    {
-        return new Action(Store.Actions.ZERO_A);
-    }
-
     public static int InitialState = 0;
 
 	public static int Reducer(int state, Action action)
@@ -38,4 +21,21 @@
 	{
 		return state.A;
 	}
+
+    protected A() { }
+
+    public Action IncrementA()
+    {
+        return new Action(Store.Actions.INCREMENT_A);
+    }
+
+    public Action DecrementA()
+    {
+        return new Action(Store.Actions.DECREMENT_A);
+    }
+
+    public Action ZeroA()
+    {
+        return new Action(Store.Actions.ZERO_A);
+    }
 }
