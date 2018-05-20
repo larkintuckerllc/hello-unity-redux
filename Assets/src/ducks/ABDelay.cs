@@ -27,12 +27,16 @@ public class ABDelay : Singleton<ABDelay>
 
     protected ABDelay() { }
 
-    IEnumerator DelayZeroABEnumerator(Action<Action> dispatch)
+    IEnumerator DelayZeroABEnumerator(Action<Action> dispatch, Func<State> getState)
     {
-        // REPLACE WITH STATE
-        // BehaviorSubject<State> state = getState();
+        State state = getState();
+        bool abDelay = GetABDelay(state);
+        if (abDelay)
+        {
+            yield break;
+        }
         dispatch(DelayZeroABStart());
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(5f);
         dispatch(A.Instance.ZeroA());
         dispatch(B.Instance.ZeroB());
         dispatch(DelayZeroABEnd());
@@ -40,9 +44,9 @@ public class ABDelay : Singleton<ABDelay>
 
     public Action DelayZeroAB()
     {
-        return new Action(dispatch =>
+        return new Action((dispatch, getState) =>
         {
-            IEnumerator enumerator = DelayZeroABEnumerator(dispatch);
+            IEnumerator enumerator = DelayZeroABEnumerator(dispatch, getState);
             StartCoroutine(enumerator);
         });
     }

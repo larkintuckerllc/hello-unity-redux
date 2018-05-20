@@ -18,6 +18,13 @@ public static class Provider
         THUNK
     }
 
+    private static State state;
+
+    public static State GetState()
+    {
+        return state;
+    }
+
     public static State Reducer(State state, Action action)
     {
         bool hasChanged = false;
@@ -52,6 +59,7 @@ public static class Provider
 
     public static State ExtractState(State state)
     {
+        Provider.state = state;
         return state;
     }
 

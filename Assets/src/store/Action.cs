@@ -15,4 +15,10 @@ public class Action
         this.Type = Provider.Actions.THUNK;
         function(Provider.Dispatch);
     }
+
+    public Action(Action<Action<Action>, Func<State>> function)
+    {
+        this.Type = Provider.Actions.THUNK;
+        function(Provider.Dispatch, Provider.GetState);
+    }
 }
