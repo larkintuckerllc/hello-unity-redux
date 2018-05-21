@@ -13,9 +13,10 @@ public static class Provider
         INCREMENT_B,
         DECREMENT_A,
         DECREMENT_B,
+        SET_SPEED_CHECK,
+        THUNK,
         ZERO_A,
-        ZERO_B,
-        THUNK
+        ZERO_B
     }
 
     private static State state;
@@ -33,17 +34,22 @@ public static class Provider
         {
             hasChanged = true;
         }
-        int nextStateB = B.Reducer(state.B, action);
-        if (nextStateB != state.B)
-        {
-            hasChanged = true;
-        }
         bool nextABDelay = ABDelay.Reducer(state.ABDelay, action);
         if (nextABDelay != state.ABDelay)
         {
             hasChanged = true;
         }
-        return hasChanged ? new State(nextStateA, nextStateB, nextABDelay) : state;
+        int nextStateB = B.Reducer(state.B, action);
+        if (nextStateB != state.B)
+        {
+            hasChanged = true;
+        }
+        int nextSpeedCheck = SpeedCheck.Reducer(state.SpeedCheck, action);
+        if (nextSpeedCheck != state.SpeedCheck)
+        {
+            hasChanged = true;
+        }
+        return hasChanged ? new State(nextStateA, nextABDelay, nextStateB, nextSpeedCheck) : state;
     }
 
     public static Action Logger(Action action)
@@ -77,8 +83,9 @@ public static class Provider
         StoreDispatch = new Subject<Action>();
         State initialState = new State(
             A.InitialState,
+            ABDelay.InitialState,
             B.InitialState,
-            ABDelay.InitialState
+            SpeedCheck.InitialState
         );
         Store = new BehaviorSubject<State>(initialState);
         StoreDispatch
